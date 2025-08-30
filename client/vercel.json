@@ -1,8 +1,8 @@
 {
-    "rewrites": [
-      {
-        "source": "/api/(.*)",
-        "destination": "https://doc-summary-assistant-jcaf.onrender.com"
-      }
-    ]
-  }
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://doc-summary-assistant-jcaf.onrender.com/api/$1"
+    }
+  ]
+}
