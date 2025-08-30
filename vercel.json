@@ -1,7 +1,10 @@
 {
-    "buildCommand": "npm run build",
-    "installCommand": "npm install --legacy-peer-deps",
-    "devCommand": "npm run dev",
-    "outputDirectory": "dist",
-    "root": "server"
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "https://doc-summary-assistant-jcaf.onrender.com/api/$1"
+      }
+    ],
+    "buildCommand": "npm run build --prefix client",
+    "outputDirectory": "client/dist"
   }
