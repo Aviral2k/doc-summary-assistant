@@ -1,4 +1,3 @@
-// server/index.js
 
 require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
@@ -13,7 +12,6 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"}); // Using the flash model for speed
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
@@ -24,7 +22,8 @@ app.get('/', (req, res) => {
   res.send('Hello! The server is running. 🚀');
 });
 
-app.post('/api/summarize', upload.single('document'), async (req, res) => {
+// The endpoint now matches the frontend call
+app.post('/api/upload', upload.single('document'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded.' });
@@ -40,6 +39,7 @@ app.post('/api/summarize', upload.single('document'), async (req, res) => {
       const data = await pdf(fileBuffer);
       extractedText = data.text;
     } else if (['image/jpeg', 'image/png'].includes(req.file.mimetype)) {
+      // Correctly destructure the response from Tesseract
       const { data: { text } } = await Tesseract.recognize(fileBuffer, 'eng');
       extractedText = text;
     } else {
@@ -50,8 +50,9 @@ app.post('/api/summarize', upload.single('document'), async (req, res) => {
     const prompt = `Generate a ${summaryLength} summary of the following document. Focus on key points and main ideas. Document content: "${extractedText}"`;
 
     const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const summary = response.text();
+    const response = result.response;
+    // Await the text() method as it returns a promise
+    const summary = await response.text();
 
     res.json({
       message: "Summary generated successfully!",
@@ -64,6 +65,6 @@ app.post('/api/summarize', upload.single('document'), async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Export the app for Vercel Serverless Functions instead of listening on a port
+module.exports = app;
+
