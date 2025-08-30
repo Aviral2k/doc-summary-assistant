@@ -66,5 +66,9 @@ app.post('/api/upload', upload.single('document'), async (req, res) => {
 });
 
 // Export the app for Vercel Serverless Functions instead of listening on a port
-module.exports = app;
+const PORT = process.env.PORT || 5000; // Use port 5000 as a common alternative
+
+app.listen(PORT, () => {
+  console.log(`Server is running and listening on port ${PORT}`);
+});
 
