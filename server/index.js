@@ -1,12 +1,21 @@
 // server/index.js
 
-require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const pdf = require('pdf-parse');
 const Tesseract = require('tesseract.js');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const path = require('path');
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file located in the server folder
+dotenv.config({ path: path.join(__dirname, '.env') });
+
+// Ensure API key is available
+if (!process.env.GEMINI_API_KEY) {
+  throw new Error("GEMINI_API_KEY is not set in environment variables.");
+}
 
 // --- Initialize AI Model ---
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -29,7 +38,7 @@ app.post('/api/summarize', upload.single('document'), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded.' });
     }
-    
+
     // Get the desired summary length from the request body (defaults to medium)
     const { summaryLength = 'medium' } = req.body;
 
@@ -64,7 +73,6 @@ app.post('/api/summarize', upload.single('document'), async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
