@@ -2,7 +2,7 @@
     "rewrites": [
       {
         "source": "/api/(.*)",
-        "destination": "https://doc-summary-assistant-wirb.onrender.com/api/$1"
+        "destination": "https://doc-summary-assistant-wirb.onrender.com"
       }
     ]
   }
