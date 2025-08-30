@@ -1,10 +1,18 @@
 {
+    "builds": [
+      {
+        "src": "client/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "outputDirectory": "dist",
+          "buildCommand": "npm run build"
+        }
+      }
+    ],
     "rewrites": [
       {
         "source": "/api/(.*)",
         "destination": "https://doc-summary-assistant-jcaf.onrender.com/api/$1"
       }
-    ],
-    "buildCommand": "npm run build --prefix client",
-    "outputDirectory": "client/dist"
+    ]
   }
