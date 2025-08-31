@@ -12,7 +12,7 @@ const App = () => {
 
   // Get the API URL from the environment variable.
   // The key has been changed to REACT_APP_API_BASE_URL
-  const API_BASE_URL = import.meta.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
   // Dropzone logic to handle file uploads via drag-and-drop
   const onDrop = useCallback((acceptedFiles) => {
