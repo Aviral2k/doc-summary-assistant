@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
+import './App.css'; // Import the CSS file for styling
 
-// The entire React application is contained in this single file, including styling.
 const App = () => {
   const [file, setFile] = useState(null);
   const [summaryLength, setSummaryLength] = useState('medium');
@@ -11,7 +11,9 @@ const App = () => {
   const [error, setError] = useState('');
 
   // Get the API URL from the environment variable.
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  // The key has been changed to REACT_APP_API_BASE_URL
+  const API_BASE_URL = import.meta.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
   // Dropzone logic to handle file uploads via drag-and-drop
   const onDrop = useCallback((acceptedFiles) => {
     // We only accept the first file if multiple are dropped
@@ -63,24 +65,6 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-center items-center font-sans p-4 transition-colors duration-300">
-      {/* Tailwind CSS is included via a script tag for this single-file React app */}
-      <script src="https://cdn.tailwindcss.com"></script>
-      <style>
-        {`
-        .loader {
-          border: 4px solid #f3f3f3;
-          border-top: 4px solid #3498db;
-          border-radius: 50%;
-          width: 30px;
-          height: 30px;
-          animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        `}
-      </style>
       <div className="container max-w-4xl mx-auto p-4 md:p-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg mt-8">
         <header className="text-center mb-8">
           <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-2">
